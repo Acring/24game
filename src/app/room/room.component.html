@@ -1,0 +1,87 @@
+<div style="height: 100%; width: 100%;background-color: #eeeeee">
+  <!--匹配中界面-->
+  <div *ngIf="status == 'matching'" style="height:100%;display: flex ; align-items: center;">
+    <div class="animated rubberBand" style="margin: auto; text-align: center">
+      <img src="/src/assets/img/2.jpg" class="img-rounded img-circle" style="width: 72px; height: 72px; margin: 5px auto">
+
+      <div style="margin: 15px auto; text-align: center">匹配ing</div>
+      <button class="btn btn-warning" style="margin: 15px auto" (click)="onStopMatch()">退出匹配</button>
+    </div>
+  </div>
+  <!--匹配成功提示-->
+  <div class="animated shake" *ngIf="status == 'matched'" style="height: 100%; width: 100%; margin: auto; display: flex ; align-items: center;">
+    <p style="font-weight: bold; font-size: 24px; width: 100%; text-align: center">
+      匹配成功, 匹配到
+      <br>
+      {{oppoName}}
+    </p>
+  </div>
+  <!--比赛界面-->
+  <div class="animated zoomIn" *ngIf="status == 'playing'" style="height: 100%; width: 100%;">
+    <!--用户信息-->
+    <div style="background-color: #5677fc; width:94%; margin: auto; height: 30%; border-radius: 5px;display: flex ; align-items: center;">
+      <div style="flex: 1; text-align: left">
+        <img src="/src/assets/img/2.jpg" class="img-circle" style="width: 72px; height: 72px; margin-left: 5px;">
+        <span style="margin-left: 16px; font-size: 24px; border: 1px solid #eeeeee; border-radius: 5px; background-color: #eeeeee">{{myScore}}</span>
+      </div>
+        <p style="margin: auto;line-height: 64px;text-align: center; font-weight: bold; font-size: 24px;border: #eeeeee solid 2px; border-radius: 50%;width: 64px; height: 64px">{{limitTime}}</p>
+      <div style="flex: 1; text-align: right">
+        <span style="margin-right: 16px; font-size: 24px; border: 1px solid #eeeeee; border-radius: 5px; background-color: #eeeeee">{{oppoScore}}</span>
+        <img src="/src/assets/img/2.jpg" class="img-circle" style="width: 72px; height: 72px; margin-right: 5px">
+      </div>
+    </div>
+    <!--比赛题目-->
+    <div style="height: 60%; background-color: #5677fc; border-radius: 5px; width: 94%; margin: 5px auto; padding: 10px;">
+      <div style="width: 100%; text-align: center; margin-top: 16px" ><i class="fas fa-redo-alt fa-2x" style="color: #eeeeee" (click)="onClickRedo()"></i></div>
+      <div style="display: flex; margin-top: 16px; height: 88px">
+        <div style="flex: 1; text-align: center; ">
+          <button [ngClass]="numClass[activeNum==0?1:0]"   [hidden]="hiddenNum.indexOf(0) != -1" (click)="onClickNum(0)">{{tempNumList[0]}}</button>
+        </div>
+        <div style="flex: 1; text-align: center">
+          <button [ngClass]="numClass[activeNum==1?1:0]"  [hidden]="hiddenNum.indexOf(1) != -1" (click)="onClickNum(1)">{{tempNumList[1]}}</button>
+        </div>
+      </div>
+      <div style="display: flex; margin-top: 24px; height: 88px">
+        <div style="flex: 1; text-align: center">
+          <button [ngClass]="numClass[activeNum==2?1:0]" [hidden]="hiddenNum.indexOf(2) != -1" (click)="onClickNum(2)">{{tempNumList[2]}}</button>
+      </div>
+        <div style="flex: 1; text-align: center">
+          <button [ngClass]="numClass[activeNum==3?1:0]" [hidden]="hiddenNum.indexOf(3) != -1" (click)="onClickNum(3)">{{tempNumList[3]}}</button>
+        </div>
+      </div>
+      <div style="display: flex; margin-top: 24px;">
+        <div style="flex: 1; text-align: center"><i [ngClass]="opClass[activeOp==0?0:1]" (click)="onClickOp(0)">+</i></div>
+        <div style="flex: 1; text-align: center"><i [ngClass]="opClass[activeOp==1?0:1]" (click)="onClickOp(1)">-</i></div>
+        <div style="flex: 1; text-align: center"><i [ngClass]="opClass[activeOp==2?0:1]" (click)="onClickOp(2)">x</i></div>
+        <div style="flex: 1; text-align: center"><i [ngClass]="opClass[activeOp==3?0:1]" (click)="onClickOp(3)">÷</i></div>
+      </div>
+    </div>
+
+    <div style="text-align: center">
+      <button class="btn btn-warning" (click)="onLeave()">退出对战</button>
+    </div>
+  </div>
+
+
+  <!--回合结果-->
+  <div class="animated shake" *ngIf="status == 'timeout'" style="color: aquamarine;height: 100%; width: 100%; margin: auto; display: flex ; align-items: center;">
+    <p style="font-weight: bold; font-size: 24px; width: 100%; text-align: center">
+      回合超时
+    </p>
+  </div>
+  <div class="animated shake" *ngIf="status == 'win'" style="color: lawngreen;height: 100%; width: 100%; margin: auto; display: flex ; align-items: center;">
+    <p style="font-weight: bold; font-size: 24px; width: 100%; text-align: center">
+      回合获胜
+    </p>
+  </div>
+  <div class="animated shake" *ngIf="status == 'lose'" style="color: red;height: 100%; width: 100%; margin: auto; display: flex ; align-items: center;">
+    <p style="font-weight: bold; font-size: 24px; width: 100%; text-align: center">
+      回合战败
+    </p>
+  </div>
+  <div class="animated shake" *ngIf="status == 'over'" style="color: coral;height: 100%; width: 100%; margin: auto; display: flex ; align-items: center;">
+    <p style="font-weight: bold; font-size: 24px; width: 100%; text-align: center">
+      房间解散
+    </p>
+  </div>
+</div>

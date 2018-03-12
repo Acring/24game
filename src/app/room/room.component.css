@@ -1,0 +1,12 @@
+.num{
+  height: 88px;
+  width: 88px;
+  font-size: 32px
+}
+
+.op{
+  /*height: 36px;*/
+  /*width: 36px;*/
+  font-size: 24px;
+  font-weight: bold;
+}
